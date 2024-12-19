@@ -21,7 +21,6 @@ public interface UserService {
 
     User createUser(User user, Set<Role> roles);
 
-    // Поменять
-    User updateUser(User user, List<String> roles, Long id);
+    User updateUser(User user, Set<Role> roles, Long id);
 
 }

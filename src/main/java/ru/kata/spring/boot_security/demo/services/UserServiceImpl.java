@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User updateUser(User user, List<String> roles, Long id) {
+    public User updateUser(User user, Set<Role> roles, Long id) {
         User oldUser = getOne(id);
         String oldPassword = oldUser.getPassword();
         String newPassword = user.getPassword();
@@ -117,8 +117,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (roles == null || roles.isEmpty()) {
             roleSet = oldUser.getRoles();
         } else {
-            for (String role : roles) {
-                Role newRole = getRole(role);
+            for (Role role : roles) {
+                Role newRole = role;
                 if (newRole != null) {
                     roleSet.add(newRole);
                 }
