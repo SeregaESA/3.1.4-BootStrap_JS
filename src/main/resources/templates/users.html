@@ -1,59 +1,161 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>User page</title>
     <style>
-        .button {
-            display: inline-block;
-            padding: 5px 10px;
-            font-size: 14px;
-            color: white;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
+        .sidebar {
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            background-color: white;
+            padding: 10px;
+        }
+        body {
+            background-color: #f8f9fa;
+            margin-left: 200px; /* Изменено на 100px для выравнивания с кнопкой Logout */
+            margin-right: 50px;
+            margin-top: 60px; /* Отступ сверху из-за фиксированной шапки */
+        }
+        .container-fluid {
+            background-color: white; /* Белый фон для контейнера */
+            margin-left: 20px; /* Отступ слева */
+            margin-right: 20px; /* Отступ справа */
+            padding: 20px; /* Добавлен внутренний отступ для контейнера */
+        }
+        .table thead th {
+            border-top: 2px solid #d3d3d3; /* Линия над шапкой таблицы */
+        }
+        /*новый*/
+        .btn-secondary {
+            background-color: lightcoral; /* Светло-серый фон для неактивной кнопки */
+            color: black; /* Цвет текста для неактивной кнопки */
+        }
+
+        .btn-secondary.active {
+            background-color: white; /* Белый фон для активной кнопки */
+            color: blue; /* Цвет текста для активной кнопки */
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Центрирование меток и полей ввода */
+        }
+        .form-control {
+            width: 80%; /* Ширина полей ввода */
         }
     </style>
 </head>
 <body>
-<h1>Users</h1>
-<br>
-<table class="table table-dark">
-    <thead>
-    <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">LastName</th>
-        <th scope="col">Age</th>
-        <th scope="col">Role</th>
-        <th scope="col">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user: ${user}">
-        <td th:text="${user.id}"/>
-        <td th:text="${user.username}"/>
-        <td th:text="${user.lastName}"/>
-        <td th:text="${user.age}"/>
-        <td th:text="${user.getAllUserRoles()}"/>
-        <td>
-            <a th:href="@{/edit(id=${user.id})}" class="button">Update</a>
-            <a th:href="@{/delete(id=${user.id})}" class="button">Delete</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<br>
-<a href="/new" class="button">Creat new user</a>
-<br><br>
-<a href="/logout" class="button">Logout</a>
-<br><br>
-<a href="/user" class="button">User</a>
+<div class="fixed-top bg-dark text-white d-flex justify-content-between align-items-center" style="font-size: 24px; padding: 10px;">
+    <td th:text="${admin.email} + ' ' + 'with role: ' + ' ' + ${admin.getAllUserRoles()}"/>
+    <form th:action="@{/logout}" th:method="POST" class="mb-0">
+        <button type="submit" class="btn btn-link text-white">Logout</button>
+    </form>
+</div>
 
+<!-- Боковая панель навигации -->
+<div class="sidebar">
+    <ul class="list-unstyled">
+        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="width: 100%;">
+            <a href="/user/admin" class="btn btn-light" role="button">User</a> <!-- Изменено на btn-light для белого цвета -->
+            <a href="/admin/" class="btn btn-primary active" role="button" style="background-color: #007BFF; border-color: #007BFF;">Admin</a> <!-- Добавлен класс active для синего цвета -->
+        </div>
+    </ul>
+</div>
+
+<!-- Контент страницы -->
+<div class="content">
+    <h2 style="margin-left: 20px; margin-top: 80px">Admin panel</h2>
+    <div class="btn-group btn-group-sm" role="group" style="margin-left: 20px">
+        <a href="/admin/" class="btn btn-secondary active" style="background-color: #007BFF; color: white; border: none;">Users table</a>
+        <a href="/new" class="btn btn-secondary" style="background-color: #f8f9fa; color: black; border: none;">New User</a> <!-- Обернуто в тег <a> для перехода по ссылке -->
+    </div>
+    <div class="container-fluid">
+        <h5>All users</h5>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user: ${user}">
+                <td th:text="${user.id}"/>
+                <td th:text="${user.username}"/>
+                <td th:text="${user.lastName}"/>
+                <td th:text="${user.age}"/>
+                <td th:text="${user.email}"/>
+                <td th:text="${user.getAllUserRoles()}"/>
+                <td>
+                    <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                       th:href="@{/edit(id=${user.id})}"
+                       data-username="${user.name}"    onclick="setUsername(this.dataset.username, ${user})">
+                        Edit
+                    </a>
+                </td>
+                <td>
+                    <button class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Modal -->
+        <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <label for="username">First name</label>
+                                <input type="text"   id="username" class="form-control form-control-sm" name="username">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function setUsername(username) {
+                document.getElementById('username').value = username;
+            }
+        </script>
+
+    </div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -1,42 +1,144 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>new User</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>User page</title>
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            background-color: white;
+            padding: 10px;
+        }
+        body {
+            background-color: #f8f9fa;
+            margin-left: 200px; /* Изменено на 100px для выравнивания с кнопкой Logout */
+            margin-right: 50px;
+            margin-top: 60px; /* Отступ сверху из-за фиксированной шапки */
+        }
+        .container-fluid {
+            background-color: white; /* Белый фон для контейнера */
+            margin-left: 20px; /* Отступ слева */
+            margin-right: 20px; /* Отступ справа */
+            padding: 20px; /* Добавлен внутренний отступ для контейнера */
+        }
+        .table thead th {
+            border-top: 2px solid #d3d3d3; /* Линия над шапкой таблицы */
+        }
+        /*новый*/
+        .btn-secondary {
+            background-color: lightcoral; /* Светло-серый фон для неактивной кнопки */
+            color: black; /* Цвет текста для неактивной кнопки */
+        }
+
+        .btn-secondary.active {
+            background-color: white; /* Белый фон для активной кнопки */
+            color: blue; /* Цвет текста для активной кнопки */
+        }
+
+        .form-group label {
+            text-align: center;
+            display: block; /* Чтобы label занимал всю ширину */
+            width: 100%; /* Занимает всю ширину родительского элемента */
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Центрирование меток и полей ввода */
+        }
+        .form-control {
+            width: 20%; /* Ширина полей ввода */
+        }
+        .btn {
+            margin-top: 10px; /* Отступ сверху для кнопки */
+        }
+
+    </style>
 </head>
 <body>
-<h1>Creat user</h1>
-<br>
+<div class="fixed-top bg-dark text-white d-flex justify-content-between align-items-center" style="font-size: 24px; padding: 10px;">
+    <td th:text="${admin.email} + ' ' + 'with role: ' + ' ' + ${admin.getAllUserRoles()}"/>
+    <form th:action="@{/logout}" th:method="POST" class="mb-0">
+        <button type="submit" class="btn btn-link text-white">Logout</button>
+    </form>
+</div>
 
-<form th:method="POST" th:action="@{/create}" th:object="${user}">
-    <div>
-        <label for="username">Enter name: </label>
-        <input type="text" th:field="*{username}" id="username">
-    </div>
-    <br>
-    <div>
-        <label for="lastName">Enter lastName: </label>
-        <input type="text" th:field="*{lastName}" id="lastName">
-    </div>
-    <br>
-    <div>
-        <label for="age">Enter age: </label>
-        <input type="text" th:field="*{age}" id="age">
-    </div>
-    <br>
-    <div>
-        <label for="password">Enter password: </label>
-        <input type="text" th:field="*{password}" id="password">
-    </div>
-    <br>
-    <div>
-        <label for="role">Enter roles: </label>
-        <input type="text" th:field="*{role}" id="role">
-    </div>
-    <br> <br>
-    <input type="submit" value="Creat"/>
-</form>
+<!-- Боковая панель навигации -->
+<div class="sidebar">
+    <ul class="list-unstyled">
+        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="width: 100%;">
+            <a href="/user/admin" class="btn btn-light" role="button">User</a> <!-- Изменено на btn-light для белого цвета -->
+            <a href="/admin/" class="btn btn-primary active" role="button" style="background-color: #007BFF; border-color: #007BFF;">Admin</a> <!-- Добавлен класс active для синего цвета -->
+        </div>
+    </ul>
+</div>
 
+<!-- Контент страницы -->
+<div class="content">
+    <h2 style="margin-left: 20px; margin-top: 80px">Admin panel</h2>
+    <div class="btn-group btn-group-sm" role="group" style="margin-left: 20px">
+        <a href="/admin/" class="btn btn-secondary" style="background-color: #f8f9fa; color: black; border: none;">Users table</a> <!-- Изменен фон и цвет текста для активной кнопки -->
+        <a href="/new" class="btn btn-secondary active" style="background-color: #007BFF; color: white; border: none;">New User</a> <!-- Обернуто в тег <a> для перехода по ссылке -->
+    </div>
+    <div class="container-fluid" style="margin-left: 20px; margin-top: 0;">
+        <h5>Add new user</h5>
+        <div style="border-top: 2px solid #d3d3d3; margin-bottom: 10px;"></div>
+        <form th:method="POST" th:action="@{/create}" th:object="${user}">
+            <div class="form-group">
+                <label for="username">First name</label>
+                <input type="text" th:field="*{username}" id="username" class="form-control form-control-sm" placeholder="First name">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="lastname">Last name</label>
+                <input type="text" th:field="*{lastName}" id="lastname"  class="form-control form-control-sm" placeholder="Last name">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" th:field="*{age}" id="age" class="form-control form-control-sm" placeholder="Age">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" th:field="*{email}" id="email" class="form-control form-control-sm" placeholder="Email">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" th:field="*{password}" id="password" class="form-control form-control-sm" placeholder="Password">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="roles">Role</label>
+                <select name="role" class="form-control form-control-sm" multiple id="roles" style="height: 60px;">
+                    <option value="1">Admin</option>
+                    <option value="2">User</option>
+                </select>
+            </div>
+            <br>
+            <div class="form-group">
+            <button type="submit" class="btn btn-primary" style="background-color: green; border: none">Add new user</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
