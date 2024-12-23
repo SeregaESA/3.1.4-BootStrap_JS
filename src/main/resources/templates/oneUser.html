@@ -44,7 +44,13 @@
 <body>
 <div class="fixed-top bg-dark text-white d-flex justify-content-between align-items-center"
      style="font-size: 24px; padding: 10px;">
-    <td th:text="${user.email} + ' ' + 'with role: ' + ' ' + ${user.getAllUserRoles()}"/>
+
+    <div class="nav-item text-left text-white px-3 navbar-brand ">
+        <span id="navbarUserEmail"></span>
+        <span>with roles:</span>
+        <span id="navbarUserRoles"></span>
+    </div>
+
     <form th:action="@{/logout}" th:method="POST" class="mb-0">
         <button type="submit" class="btn btn-link text-white">Logout</button>
     </form>
@@ -76,13 +82,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="user: ${user}">
-                <td th:text="${user.id}"/>
-                <td th:text="${user.username}"/>
-                <td th:text="${user.lastName}"/>
-                <td th:text="${user.age}"/>
-                <td th:text="${user.email}"/>
-                <td th:text="${user.getAllUserRoles()}"/>
+            <tr>
+                <td id="id"></td>
+                <td id="username"></td>
+                <td id="lastName"></td>
+                <td id="age"></td>
+                <td id="email"></td>
+                <td id="roles"></td>
             </tr>
             </tbody>
         </table>
@@ -100,5 +106,10 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+
+<script src="/js/userProfile.js"></script>
+<script src="/js/currentUser.js"></script>
+
 </body>
 </html>
+

@@ -1,10 +1,12 @@
 package ru.kata.spring.boot_security.demo.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
@@ -19,14 +21,22 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty (message = "Name shout not be empty")
+    @Size(min = 2, max = 30, message = "Name shout be between 2 and 30 character")
     private String username;
 
+    @NotEmpty (message = "lastName shout not be empty")
+    @Size(min = 2, max = 30, message = "lastName shout be between 2 and 30 character")
     private String lastName;
 
+    @Min(value = 0, message = "Age shout be greater than 0")
+    @Max(value = 100, message = "The age should not be more than 150 years old")
     private Byte age;
 
     private String password;
 
+    @Email
+    @NotEmpty(message = "Email shout not be empty")
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY)

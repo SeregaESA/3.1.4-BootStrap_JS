@@ -26,6 +26,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.userDetailsService = userDetailsService;
     }
 
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/auth/login", "/logout", "/new", "/delete", "/update").permitAll()// добавил /new
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
+//                .anyRequest().authenticated();
+////                .anyRequest().permitAll();
+////                .and()
+////                .formLogin().loginPage("/auth/login")
+////                .loginProcessingUrl("/process_login")
+////                .successHandler(authenticationSuccessHandler)
+////                .failureUrl("/auth/login?error=true")
+////                .and()
+////                .logout()
+////                .logoutUrl("/logout")
+////                .logoutSuccessUrl("/login");
+//
+//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
