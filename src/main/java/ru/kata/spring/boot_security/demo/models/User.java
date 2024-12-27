@@ -55,19 +55,19 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public String getAllUserRoles() {
-        return roles.stream()
-                .map(role -> {
-                    if (role.getRole().equals("ROLE_USER")) {
-                        return "USER";
-                    } else if (role.getRole().equals("ROLE_ADMIN")) {
-                        return "ADMIN";
-                    } else {
-                        return role.getRole();
-                    }
-                })
-                .collect(Collectors.joining(", "));
-    }
+//    public String getAllUserRoles() {
+//        return roles.stream()
+//                .map(role -> {
+//                    if (role.getName().equals("ROLE_USER")) {
+//                        return "USER";
+//                    } else if (role.getName().equals("ROLE_ADMIN")) {
+//                        return "ADMIN";
+//                    } else {
+//                        return role.getName();
+//                    }
+//                })
+//                .collect(Collectors.joining(", "));
+//    }
 
     public User() {
     }

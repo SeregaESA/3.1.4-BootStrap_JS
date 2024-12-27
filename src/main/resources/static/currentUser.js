@@ -1,7 +1,7 @@
 // --------------------------- Получение и отображение текущего пользователя ------------------------------
 function fetchCurrentUser() {
     console.log('Fetching current user info...');
-    fetch('/authUser')
+    fetch('/admin/authUser')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to fetch current user info');

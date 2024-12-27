@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("roles").textContent = roles;
 
             // Отображение роли пользователя в навигации
-            document.getElementById("navbarUserEmail").textContent = user.username;
+            document.getElementById("navbarUserEmail").textContent = user.email;
             document.getElementById("navbarUserRoles").textContent = roles;
 
             // Скрываем элемент навигации для админа, если у пользователя нет роли ADMIN
@@ -27,31 +27,3 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error("Error fetching user data:", error));
 });
-
-// {
-//     "id": 2,
-//     "username": "user",
-//     "lastName": "user",
-//     "age": 30,
-//     "password": "$2a$12$oQKP9KHR5an3eHvvK2sGcOEW5Z0zomeLv2mopUN5DqOCJ7u5R9qCa",
-//     "email": "user@mail.ru",
-//     "roles": [
-//     {
-//         "id": 2,
-//         "authority": "ROLE_USER",
-//         "role": "ROLE_USER"
-//     }
-// ],
-//     "enabled": true,
-//     "authorities": [
-//     {
-//         "id": 2,
-//         "authority": "ROLE_USER",
-//         "role": "ROLE_USER"
-//     }
-// ],
-//     "credentialsNonExpired": true,
-//     "accountNonExpired": true,
-//     "accountNonLocked": true,
-//     "allUserRoles": "USER"
-// }

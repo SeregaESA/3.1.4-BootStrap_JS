@@ -59,8 +59,15 @@
 <!-- Боковая панель навигации -->
 <div class="sidebar">
     <ul class="list-unstyled">
-        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="width: 100%;">
-            <button type="button" class="btn btn-primary">User</button>
+        <div class="d-flex flex-column flex-shrink-0 p-0 text-white">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item" id="adminNavItem">
+                    <a href="/admin" class="nav-link no-refresh cursor">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active no-refresh">User</a>
+                </li>
+            </ul>
         </div>
     </ul>
 </div>
@@ -107,8 +114,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
-<script src="/js/userProfile.js"></script>
-<script src="/js/currentUser.js"></script>
+<script src="/userProfile.js"></script>
 
 </body>
 </html>

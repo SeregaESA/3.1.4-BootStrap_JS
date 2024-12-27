@@ -9,6 +9,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
+import ru.kata.spring.boot_security.demo.services.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
 import ru.kata.spring.boot_security.demo.util.UserErrorResponse;
 import ru.kata.spring.boot_security.demo.util.UserNotCreateException;
@@ -17,23 +18,47 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
-@Controller
+@RestController
+@RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final RoleService roleService;
 
-    @GetMapping("/admin/")
-    @ResponseBody
+    @Autowired
+    public AdminController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
+    }
+
+    @GetMapping("/users")
     public List<User> admin() {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/admin/{id}")// ?????
-    @ResponseBody
+    @GetMapping("/users/{id}")// ?????
+    //@ResponseBody
     public User getUser (@PathVariable int id) {
         return userService.getOne((long) id);
     }
+
+
+
+//    @GetMapping("/users/roles")
+//    public ResponseEntity<List<Role>> allRoles(){
+//        roleService.findAll();
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
+
+    @GetMapping("users/roles")
+    public  List<Role> allRoles(){
+        return roleService.findAll();
+    }
+
+//    @GetMapping("users/roles")
+//    public ResponseEntity<List<Role>> getAllRoles() {
+//        return new ResponseEntity<>(roleService.findAll(), HttpStatus.OK);
+//    }
 
 
 //    @GetMapping("/admin/")
@@ -83,26 +108,27 @@ public class AdminController {
 //    }
 
 
-    @GetMapping(value = "/delete")
-    public ResponseEntity<HttpStatus> delete(@RequestBody User user) {
-        userService.delete(user.getId());
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") long id) {
+        userService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-//    @GetMapping(value = "/delete")
-//    public String delete(@RequestParam("id") long id) {
-//        userService.delete(id);
-//        return "redirect:/admin/";
-//    }
 
     @PostMapping(value = "/update")
-    public ResponseEntity<HttpStatus> update(@RequestBody User user) {
+    public ResponseEntity<HttpStatus> update(@RequestBody @Valid User user, BindingResult bindingResult) {
         userService.update(user.getId(), userService.updateUser(user, user.getRoles(), user.getId()));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+//    @PostMapping(value = "/update")
+//    public ResponseEntity<HttpStatus> update(@RequestBody User user) {
+//        userService.update(user.getId(), userService.updateUser(user, user.getRoles(), user.getId()));
+//        return ResponseEntity.ok(HttpStatus.OK);
+//    }
+
     @GetMapping("/authUser")
-    @ResponseBody
+    //@ResponseBody
     public ResponseEntity<User> authenticationUser () {
         User user = userService.oneUser();
         return new ResponseEntity<>(user, HttpStatus.OK);
