@@ -10,16 +10,16 @@ function openEditUserPopup(userId) {
         })
         .then(user => {
             console.log('User fetched for edit:', user);
-            document.getElementById('id').value = user.id;
-            document.getElementById('username').value = user.username;
-            document.getElementById('lastName').value = user.lastName;
-            document.getElementById('age').value = user.age;
-            document.getElementById('email').value = user.email;
+            document.getElementById('editeId').value = user.id;
+            document.getElementById('editeUsername').value = user.username;
+            document.getElementById('editeLastName').value = user.lastName;
+            document.getElementById('editeAge').value = user.age;
+            document.getElementById('editeEmail').value = user.email;
             const editRolesSelect = document.getElementById('editRoles');
             Array.from(editRolesSelect.options).forEach(option => {
                 option.selected = user.roles.some(role => role.id === parseInt(option.value, 10));
             });
-           openModal('editUser');
+            openModal('editUser');
         })
         .catch(error => {
             console.error('Error fetching user:', error);
@@ -59,8 +59,7 @@ document.getElementById('editUserForm').addEventListener('submit', function (eve
             if (response.ok) {
                 fetchUsers();
                 this.reset();
-                //closeModal('editUserModal');
-                $('#editUser').modal('hide');
+                closeModal('editUser');
                 const tabTrigger = new bootstrap.Tab(document.querySelector('#nav-home-tab'));
                 tabTrigger.show();
             } else {
@@ -91,6 +90,6 @@ document.getElementById('editUserForm').addEventListener('submit', function (eve
 });
 
 // Очистка сообщений об ошибках валидации формы
-document.querySelector('#editUserForm button[type="submit"]').addEventListener('click', function(event) {
+document.querySelector('#editUserForm button[type="submit"]').addEventListener('click', function (event) {
     document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
 });

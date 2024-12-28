@@ -11,36 +11,36 @@ function openDeleteUserPopup(userId) {
         })
         .then(user => {
             // Заполняем поля формы данными пользователя
-            document.getElementById('id1').value = user.id;
-            document.getElementById('username1').value = user.username;
-            document.getElementById('lastName1').value = user.lastName;
-            document.getElementById('age1').value = user.age;
-            document.getElementById('email1').value = user.email;
+            document.getElementById('deleteId').value = user.id;
+            document.getElementById('deleteUsername').value = user.username;
+            document.getElementById('deleteLastName').value = user.lastName;
+            document.getElementById('deleteAge').value = user.age;
+            document.getElementById('deleteEmail').value = user.email;
             const editRolesSelect = document.getElementById('deleteRoles');
             Array.from(editRolesSelect.options).forEach(option => {
                 option.selected = user.roles.some(role => role.id === parseInt(option.value, 10));
             });
 
             // Открываем модальное окно
-            //openModal('deleteUser');
+            openModal('deleteUser');
         })
         .catch(error => {
             console.error('Ошибка при загрузке данных пользователя:', error);
-             alert('Ошибка при загрузке данных пользователя');
+            alert('Ошибка при загрузке данных пользователя');
         });
 }
 
 document.getElementById('deleteUserForm').addEventListener('submit', function (event) {
     event.preventDefault();
-    const userId = document.getElementById('id1').value;
+    const userId = document.getElementById('deleteId').value;
     fetch(`/admin/delete/${userId}`, {
         method: 'DELETE'
     })
         .then(response => {
             if (response.ok) {
                 fetchUsers();
-                //closeModal('deleteUser');
-                $('#deleteUser').modal('hide');
+                closeModal('deleteUser');
+                //$('#deleteUser').modal('hide');
             } else {
                 return response.json().then(data => {
                     throw new Error(data.message || 'Не удалось удалить пользователя');

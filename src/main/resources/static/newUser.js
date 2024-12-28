@@ -8,7 +8,7 @@ document.getElementById('new-user-form').addEventListener('submit', function (ev
     }));
 
     const user = {
-        firstName: formData.get('username'),
+        username: formData.get('username'),
         lastName: formData.get('lastName'),
         age: parseInt(formData.get('age'), 10),
         email: formData.get('email'),
